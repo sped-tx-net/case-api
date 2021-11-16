@@ -1,0 +1,45 @@
+name: yaml-pipeline
+trigger:
+  - master
+pr:
+  - master
+variables:
+  - name: BuildConfiguration
+    value: Release
+  - name: ArtifactsOutputPath
+    value: artifacts/packages/$(BuildConfiguration)/Shipping
+  - name: RestoreBuildProjects
+    value: src/**/*.csproj
+  - name: NuPkgFiles
+    value: artifacts/packages/$(BuildConfiguration)/Shipping/*.nupkg
+pool:
+  name: Hosted VS2017
+steps:
+  - task: NuGetToolInstaller@0
+    displayName: Install NuGet Tool
+    continueOnError: true
+    inputs:
+     versionSpec: '4.3.0'
+     checkLatest: true
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: $(RestoreBuildProjects)
+      feedsToUse: config
+      nugetConfigPath: NuGet.config
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      versioningScheme: byBuildNumber
+      command: build
+      configuration: $(BuildConfiguration)
+      projects: $(RestoreBuildProjects)
+      arguments: '--configuration $(BuildConfiguration)'
+  - task: NuGetCommand@2
+    displayName: NuGet push
+    inputs:
+      command: push
+      packagesToPush: $(NuPkgFiles)
+      nuGetFeedType: external
+      publishFeedCredentials: MyGet NuGet Server

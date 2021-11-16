@@ -1,0 +1,15 @@
+﻿<Project>
+  <PropertyGroup>   
+    <NoWarn>$(NoWarn);NU5125;NU5105;NU5104;NU5111;NU5110;CS8002;EF1001;IDE0007;IDE0001</NoWarn>
+    <RootNamespace>Ims.Case</RootNamespace>
+  </PropertyGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.DotNet.Arcade.Sdk" />
+
+  <Import Project="eng\VisualStudio.targets" Condition="'$(UsingToolVsSDK)'=='true'" />
+
+
+  <ItemGroup>
+    <PackageReference Remove="Microsoft.SourceLink.*" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+
+environment:
+  dotnetcore_version: netcoreapp2.2
+  package_id: ArcadeRepo
+
+artifacts:
+- path: artifacts/bin/$(package_id)/$(configuration)/$(dotnetcore_version)/*.dll
+  name: Binary File
+
+before_build:
+- nuget restore
+  
+build_script:
+- cmd: Release.cmd
+
+deploy_script:
+- cmd: Deploy.cmd

@@ -1,0 +1,11 @@
+Brad Marshall uses third-party libraries or other resources that may be
+distributed under licenses different than Brad Marshall's software.
+
+In the event that Brad Marshall accidentally failed to list a required notice, please
+bring it to his attention. Post an issue or email us:
+
+           bmarshall@sped.mobi
+
+The attached notices are provided for information only.
+
+No notices are provided at this time.
