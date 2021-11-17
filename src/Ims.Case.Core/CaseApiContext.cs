@@ -8,7 +8,6 @@ namespace Ims.Case.Entities
 {
     public partial class CaseApiContext : DbContext
     {
-
         public CaseApiContext(DbContextOptions<CaseApiContext> options)
             : base(options)
         {
@@ -48,9 +47,19 @@ namespace Ims.Case.Entities
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
+                entity.Property(e => e.DestinationNodeTitle)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.LastChangeDateTime).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.OriginNodeId)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OriginNodeTitle)
                     .IsRequired()
                     .HasMaxLength(200)
                     .IsUnicode(false);

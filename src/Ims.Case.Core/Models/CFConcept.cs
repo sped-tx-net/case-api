@@ -6,13 +6,13 @@ using Newtonsoft.Json;
 
 namespace Ims.Case.Models
 {
-    public class CFConcept
+    public class CFConcept : CompetencyFrameworkElement
     {
         [JsonProperty("identifier")]
-        public string Identifier { get; set; }
+        public override string Identifier { get; set; }
 
         [JsonProperty("uri")]
-        public string Uri { get; set; }
+        public override string Uri { get; set; }
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -27,6 +27,6 @@ namespace Ims.Case.Models
         public string Description { get; set; }
 
         [JsonProperty("lastChangeDateTime")]
-        public DateTime LastChangeDateTime { get; set; }
+        public override string LastChangeDateTime { get; set; }
     }
 }

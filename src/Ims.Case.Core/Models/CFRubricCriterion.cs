@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Ims.Case.Models
 {
-    public class CFRubricCriterion
+    public class CFRubricCriterion : CompetencyFrameworkElement
     {
         public CFRubricCriterion()
         {
@@ -12,10 +12,10 @@ namespace Ims.Case.Models
         }
 
         [JsonProperty("identifier")]
-        public string Identifier { get; set; }
+        public override string Identifier { get; set; }
 
         [JsonProperty("uri")]
-        public string Uri { get; set; }
+        public override string Uri { get; set; }
 
         [JsonProperty("category")]
         public string Category { get; set; }
@@ -36,7 +36,7 @@ namespace Ims.Case.Models
         public string RubricId { get; set; }
 
         [JsonProperty("lastChangeDateTime")]
-        public DateTime LastChangeDateTime { get; set; }
+        public override string LastChangeDateTime { get; set; }
 
         [JsonProperty("CFRubricCriterionLevels")]
         public List<CFRubricCriterionLevel> CFRubricCriterionLevels { get; set; }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Ims.Case.Models
 {
-    public class CFPckgItem
+    public class CFPckgItem : CompetencyFrameworkElement
     {
         public CFPckgItem()
         {
@@ -13,7 +13,7 @@ namespace Ims.Case.Models
         }
 
         [JsonProperty("identifier")]
-        public string Identifier { get; set; }
+        public override string Identifier { get; set; }
 
         [JsonProperty("fullStatement")]
         public string FullStatement { get; set; }
@@ -25,7 +25,7 @@ namespace Ims.Case.Models
         public string CFItemType { get; set; }
 
         [JsonProperty("uri")]
-        public string Uri { get; set; }
+        public override string Uri { get; set; }
 
         [JsonProperty("humanCodingScheme")]
         public string HumanCodingScheme { get; set; }
@@ -64,7 +64,7 @@ namespace Ims.Case.Models
         public string StatusEndDate { get; set; }
 
         [JsonProperty("lastChangeDateTime")]
-        public DateTime LastChangeDateTime { get; set; }
+        public override string LastChangeDateTime { get; set; }
 
     }
 }

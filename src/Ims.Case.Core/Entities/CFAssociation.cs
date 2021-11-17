@@ -11,7 +11,9 @@ namespace Ims.Case.Entities
         public string AssociationType { get; set; }
         public int? SequenceNumber { get; set; }
         public string OriginNodeId { get; set; }
+        public string OriginNodeTitle { get; set; }
         public string DestinationNodeId { get; set; }
+        public string DestinationNodeTitle { get; set; }
         public Guid? CFAssociationGroupingId { get; set; }
         public DateTime LastChangeDateTime { get; set; }
         public Guid? CFDocumentId { get; set; }

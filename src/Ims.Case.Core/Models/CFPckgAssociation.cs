@@ -1,12 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Ims.Case.Models
 {
-    public class CFPckgAssociation
+    public class CFPckgAssociation : CompetencyFrameworkElement
     {
         [JsonProperty("identifier")]
-        public string Identifier { get; set; }
+        public override string Identifier { get; set; }
 
         [JsonProperty("associationType")]
         public string AssociationType { get; set; }
@@ -15,19 +14,18 @@ namespace Ims.Case.Models
         public int? SequenceNumber { get; set; }
 
         [JsonProperty("uri")]
-        public string Uri { get; set; }
+        public override string Uri { get; set; }
 
         [JsonProperty("originNodeURI")]
-        public LinkURI OriginNodeURI { get; set; }
-
-        [JsonProperty("CFAssociationGroupingURI")]
-        public LinkURI CFAssociationGroupingURI { get; set; }
+        public LinkGenURI OriginNodeURI { get; set; }
 
         [JsonProperty("destinationNodeURI")]
         public LinkGenURI DestinationNodeURI { get; set; }
 
-        [JsonProperty("lastChangeDateTime")]
-        public DateTime LastChangeDateTime { get; set; }
+        [JsonProperty("CFAssociationGroupingURI")]
+        public LinkURI CFAssociationGroupingURI { get; set; }
 
+        [JsonProperty("lastChangeDateTime")]
+        public override string LastChangeDateTime { get; set; }
     }
 }
