@@ -3,6 +3,11 @@ using Newtonsoft.Json;
 
 namespace Ims.Case.Models
 {
+    /// <summary>
+    /// This is the container for all of the data for a Competency Framework Package i.e. the root
+    /// CFDocument and ALL of the corresponding components i.e., the CFItems, CFAssociations,
+    /// CFDefinitions, and CFRubrics.
+    /// </summary>
     public class CFPackage
     {
         public CFPackage()
@@ -10,6 +15,7 @@ namespace Ims.Case.Models
             CFItems = new List<CFPckgItem>();
             CFAssociations = new List<CFPckgAssociation>();
             CFRubrics = new List<CFRubric>();
+            CFDefinitions = new CFDefinition();
         }
 
         [JsonProperty("CFDocument")]
@@ -26,7 +32,5 @@ namespace Ims.Case.Models
 
         [JsonProperty("CFRubrics")]
         public List<CFRubric> CFRubrics { get; set; }
-
     }
-
 }

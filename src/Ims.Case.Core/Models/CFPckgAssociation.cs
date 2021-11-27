@@ -10,9 +10,15 @@ namespace Ims.Case.Models
         [JsonProperty("associationType")]
         public string AssociationType { get; set; }
 
+        /// <summary>
+        /// Model Primitive Datatype = Integer
+        /// </summary>
         [JsonProperty("sequenceNumber")]
         public int? SequenceNumber { get; set; }
 
+        /// <summary>
+        /// Model Primitive Datatype = AnyURI
+        /// </summary>
         [JsonProperty("uri")]
         public override string Uri { get; set; }
 
@@ -25,6 +31,9 @@ namespace Ims.Case.Models
         [JsonProperty("CFAssociationGroupingURI")]
         public LinkURI CFAssociationGroupingURI { get; set; }
 
+        /// <summary>
+        /// Model Primitive Datatype = DateTime
+        /// </summary>
         [JsonProperty("lastChangeDateTime")]
         public override string LastChangeDateTime { get; set; }
     }

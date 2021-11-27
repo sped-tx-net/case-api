@@ -12,45 +12,94 @@ using Microsoft.AspNetCore.Http;
 namespace Ims.Case
 {
 
-
-    public class LinkFactory
+    public class LinkFactory : ILinkFactory
     {
-        public LinkFactory(UriGenerator generator)
+        public LinkFactory(IUriGenerator generator)
         {
             Generator = generator;
         }
 
-        public UriGenerator Generator { get; }
+        public IUriGenerator Generator { get; }
 
-        public LinkURI CreateDocumentLink(Entities.CFDocument element) => new()
-        {
-            Title = element.Title,
-            Identifier = element.UUID(),
-            Uri = Generator.Generate(element)
-        };
 
-        public LinkURI CreatePackageLink(Entities.CFDocument element) => new()
+        public LinkURI CreateCFPackageLink(Entities.CFDocument element) => new()
         {
             Title = element.Title,
             Identifier = element.UUID(),
             Uri = Generator.Generate(element).Replace("CFDocument", "CFPackage")
         };
 
-        public LinkURI CreateSubjectLink(Entities.CFSubject element) => new()
+        public LinkURI CreateCFAssociationLink(Entities.CFAssociation element) => new()
+        {
+            Title = element.DestinationNodeTitle,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFAssociationGroupingLink(Entities.CFAssociationGrouping element) => new()
         {
             Title = element.Title,
             Identifier = element.UUID(),
             Uri = Generator.Generate(element)
         };
 
-        public LinkURI CreateLicenseLink(Entities.CFLicense element) => new()
+        public LinkURI CreateCFConceptLink(Entities.CFConcept element) => new()
         {
             Title = element.Title,
             Identifier = element.UUID(),
             Uri = Generator.Generate(element)
         };
 
-        public LinkURI CreateItemTypeLink(Entities.CFItemType element) => new()
+        public LinkURI CreateCFDocumentLink(Entities.CFDocument element) => new()
+        {
+            Title = element.Title,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFItemLink(Entities.CFItem element) => new()
+        {
+            Title = element.FullStatement,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFItemTypeLink(Entities.CFItemType element) => new()
+        {
+            Title = element.Title,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFLicenseLink(Entities.CFLicense element) => new()
+        {
+            Title = element.Title,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFRubricLink(Entities.CFRubric element) => new()
+        {
+            Title = element.Title,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFRubricCriterionLink(Entities.CFRubricCriterion element) => new()
+        {
+            Title = element.Description,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFRubricCriterionLevelLink(Entities.CFRubricCriterionLevel element) => new()
+        {
+            Title = element.Description,
+            Identifier = element.UUID(),
+            Uri = Generator.Generate(element)
+        };
+
+        public LinkURI CreateCFSubjectLink(Entities.CFSubject element) => new()
         {
             Title = element.Title,
             Identifier = element.UUID(),

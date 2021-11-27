@@ -3,6 +3,11 @@ using Newtonsoft.Json;
 
 namespace Ims.Case.Models
 {
+    /// <summary>
+    /// The container for the set of definitions used for the competency framework
+    /// i.e. the set of CFSubjects, CFConcepts, CFItemTypes, CFAssociationGroupings
+    /// and CFLicenses.
+    /// </summary>
     public class CFDefinition
     {
         public CFDefinition()
@@ -29,5 +34,4 @@ namespace Ims.Case.Models
         [JsonProperty("CFAssociationGroupings")]
         public List<CFAssociationGrouping> CFAssociationGroupings { get; set; }
     }
-
 }

@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Ims.Case.Entities;
 using Ims.Case.Models;
 using Ims.Case.Utilities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ims.Case
 {
-    public class ApiModelFactory
+    public class ApiModelFactory : IApiModelFactory
     {
-        private readonly LinkFactory _linkFactory;
-        private readonly UriGenerator _generator;
+        private readonly ILinkFactory _linkFactory;
+        private readonly IUriGenerator _generator;
 
-        public ApiModelFactory(LinkFactory linkFactory)
+        public ApiModelFactory(ILinkFactory linkFactory)
         {
             _linkFactory = linkFactory;
             _generator = _linkFactory.Generator;
@@ -29,7 +31,7 @@ namespace Ims.Case
             return model;
         }
 
-        private Ims.Case.Models.CFItemType CreateCFItemType(Ims.Case.Entities.CFItemType entity)
+        public Ims.Case.Models.CFItemType CreateCFItemType(Ims.Case.Entities.CFItemType entity)
         {
             return new Ims.Case.Models.CFItemType
             {
@@ -70,11 +72,11 @@ namespace Ims.Case
                 HumanCodingScheme = entity.HumanCodingScheme,
                 ListEnumeration = entity.ListEnumeration?.ToString(),
             };
-            model.CFDocumentURI = _linkFactory.CreateDocumentLink(entity.CFDocument);
+            model.CFDocumentURI = _linkFactory.CreateCFDocumentLink(entity.CFDocument);
             if (entity.CFItemTypeNavigation != null)
-                model.CFItemTypeURI = _linkFactory.CreateItemTypeLink(entity.CFItemTypeNavigation);
+                model.CFItemTypeURI = _linkFactory.CreateCFItemTypeLink(entity.CFItemTypeNavigation);
             if (entity.License != null)
-                model.LicenseURI = _linkFactory.CreateLicenseLink(entity.License);
+                model.LicenseURI = _linkFactory.CreateCFLicenseLink(entity.License);
             if (entity.EducationLevel != null)
             {
                 if (entity.EducationLevel.Contains(","))
@@ -111,10 +113,10 @@ namespace Ims.Case
             };
             model.Subject.Add(entity.Subject);
             if (entity.SubjectNavigation != null)
-                model.SubjectURI.Add(_linkFactory.CreateSubjectLink(entity.SubjectNavigation));
-            model.CFPackageURI = _linkFactory.CreatePackageLink(entity);
+                model.SubjectURI.Add(_linkFactory.CreateCFSubjectLink(entity.SubjectNavigation));
+            model.CFPackageURI = _linkFactory.CreateCFPackageLink(entity);
             if (entity.License != null)
-                model.LicenseURI = _linkFactory.CreateLicenseLink(entity.License);
+                model.LicenseURI = _linkFactory.CreateCFLicenseLink(entity.License);
             return model;
         }
 
@@ -127,7 +129,6 @@ namespace Ims.Case
                 LastChangeDateTime = entity.LastChangeDateTime(),
                 AssociationType = entity.AssociationType,
                 SequenceNumber = entity.SequenceNumber,
-                
             };
 
             return model;
@@ -179,10 +180,10 @@ namespace Ims.Case
             return model;
         }
 
-        public Ims.Case.Models.CFDocumentSet CreateCFDocumentSet(CaseApiContext context)
+        public async Task<Ims.Case.Models.CFDocumentSet> CreateCFDocumentSetAsync(CaseApiContext context, CancellationToken ct = default)
         {
             var model = new Ims.Case.Models.CFDocumentSet();
-            foreach (var entity in context.CFDocument)
+            foreach (var entity in await context.CFDocument.AsNoTracking().ToListAsync(ct))
             {
                 model.CFDocuments.Add(CreateCFDocument(entity));
             }
@@ -256,6 +257,9 @@ namespace Ims.Case
                 Identifier = entity.UUID(),
                 Uri = _generator.Generate(entity),
                 LastChangeDateTime = entity.LastChangeDateTime(),
+                Description = entity.Description,
+                HierarchyCode = entity.HierarchyCode,
+                Title = entity.Title
             };
 
             return model;

@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Ims.Case
 {
-
-    public class UriGenerator
+    public class UriGenerator : IUriGenerator
     {
         private readonly IHttpContextAccessor _accessor;
         public UriGenerator(IHttpContextAccessor accessor)
@@ -26,5 +25,20 @@ namespace Ims.Case
             var name = typeof(TEntity).Name;
             return $"{baseUrl}/ims/case/v1p0/{name}/{identifier}";
         }
+    }
+
+    public static class LinkGen
+    {
+        public static LinkURI CreateCFPackageLink(Entities.CFDocument element) =>
+            ServiceManager.GetService<ILinkFactory>().CreateCFPackageLink(element);
+
+        public static LinkURI CreateCFAssociationLink(Entities.CFAssociation element) =>
+            ServiceManager.GetService<ILinkFactory>().CreateCFAssociationLink(element);
+
+        public static LinkURI CreateCFDocumentLink(Entities.CFDocument element) =>
+            ServiceManager.GetService<ILinkFactory>().CreateCFDocumentLink(element);
+
+
+
     }
 }

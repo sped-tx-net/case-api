@@ -1,6 +1,10 @@
 ﻿using System;
 using Ims.Case.Entities;
+using Ims.Case.Repository;
+using Ims.Case.Supervisor;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Examples;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Ims.Case.Api
 {
@@ -32,12 +36,34 @@ namespace Ims.Case.Api
             services.AddDbContextPool<CaseApiContext>(options => options.UseSqlServer(connection, o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
             return services;
         }
+        public static IServiceCollection ConfigureSupervisor(this IServiceCollection services)
+        {
+            services.AddScoped<ICaseApiSupervisor, CaseApiSupervisor>();
+            return services;
+        }
+
+        public static IServiceCollection ConfigureRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<ICFAssociationRepository, CFAssociationRepository>()
+                .AddScoped<ICFAssociationGroupingRepository, CFAssociationGroupingRepository>()
+                .AddScoped<ICFConceptRepository, CFConceptRepository>()
+                .AddScoped<ICFDocumentRepository, CFDocumentRepository>()
+                .AddScoped<ICFItemRepository, CFItemRepository>()
+                .AddScoped<ICFItemTypeRepository, CFItemTypeRepository>()
+                .AddScoped<ICFLicenseRepository, CFLicenseRepository>()
+                .AddScoped<ICFRubricRepository, CFRubricRepository>()
+                .AddScoped<ICFRubricCriterionRepository, CFRubricCriterionRepository>()
+                .AddScoped<ICFRubricCriterionLevelRepository, CFRubricCriterionLevelRepository>()
+                .AddScoped<ICFSubjectRepository, CFSubjectRepository>();
+            return services;
+        }
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
-            services.AddTransient<LinkFactory, LinkFactory>();
-            services.AddTransient<UriGenerator, UriGenerator>();
-            services.AddTransient<ApiModelFactory, ApiModelFactory>();
+            services.AddCaching();
+            services.AddScoped<ILinkFactory, LinkFactory>();
+            services.AddScoped<IUriGenerator, UriGenerator>();
+            services.AddScoped<IApiModelFactory, ApiModelFactory>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             return services;
         }
@@ -46,8 +72,9 @@ namespace Ims.Case.Api
         {
             services.AddSwaggerGen(c =>
             {
-                c.OperationFilter<ExamplesOperationFilter>();
-                c.OperationFilter<DescriptionOperationFilter>();
+                c.EnableAnnotations();
+                
+                //c.CustomOperationIds(GenerateOperationId);
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Competencies and Academic Standards Exchange API",
@@ -68,7 +95,19 @@ namespace Ims.Case.Api
                     Version = "v1p0"
                 });
             });
+            services.AddSwaggerExamples();
+
             return services;
+        }
+
+        private static string GenerateOperationId(ApiDescription apiDescription)
+        {
+            if (apiDescription.ActionDescriptor is ControllerActionDescriptor controllerDescriptor)
+            {
+                return controllerDescriptor.ActionName;
+            }
+
+            return apiDescription.ActionDescriptor.DisplayName;
         }
 
         public static IServiceCollection AddAppSettings(this IServiceCollection services, IConfiguration configuration)
@@ -97,6 +136,5 @@ namespace Ims.Case.Api
     public class AppSettings
     {
     }
-
 
 }

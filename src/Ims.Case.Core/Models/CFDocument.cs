@@ -8,5 +8,4 @@ namespace Ims.Case.Models
         [JsonProperty("CFPackageURI")]
         public LinkURI CFPackageURI { get; set; }
     }
-
 }

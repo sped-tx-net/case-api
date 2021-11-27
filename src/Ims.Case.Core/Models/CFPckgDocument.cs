@@ -51,15 +51,24 @@ namespace Ims.Case.Models
         [JsonProperty("adoptionStatus")]
         public string AdoptionStatus { get; set; }
 
+        /// <summary>
+        /// Model Primitive Datatype = DateTime
+        /// </summary>
         [JsonProperty("statusStartDate")]
         public string StatusStartDate { get; set; }
 
+        /// <summary>
+        /// Model Primitive Datatype = Date
+        /// </summary>
         [JsonProperty("statusEndDate")]
         public string StatusEndDate { get; set; }
 
         [JsonProperty("licenseURI")]
         public LinkURI LicenseURI { get; set; }
 
+        /// <summary>
+        /// Model Primitive Datatype = String
+        /// </summary>
         [JsonProperty("notes")]
         public string Notes { get; set; }
     }
